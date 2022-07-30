@@ -9,16 +9,14 @@ from playsound import playsound
 
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
-#print(voices[1].id)
-engine.setProperty('voice', voices[1].id)
+engine.setProperty('voice', voices[0].id)
+# change value 0 for men and 1 for women
 
 
 
 def speak(audio):
     engine.say(audio)
     engine.runAndWait()
-
-a=1
 
 def greetings():
     hour = int(datetime.datetime.now().hour)
@@ -41,37 +39,25 @@ def wishMe():
         print("Welcome Sir,")
         speak("Welcome Sir , the system will be started in few more seconds")
         
-              
-        
-
-        
-
-    
-    
-
-
-   
-
 def takeCommand():
-    #It takes microphone input from the user and returns string output
 
     r = sp.Recognizer()
     with sp.Microphone() as source:
-        print("Listening...")
+        print("Speak Now ... ")
         r.pause_threshold = 1
         audio = r.listen(source)
 
     try:
-        print("Recognizing...")    
+        print("Please wait ...")    
         query = r.recognize_google(audio, language='en-in')
         print(f"User said:{query}\n")
 
         
        
 
-    except Exception as e:
-        # print(e)    
-        print("Say that again please...")  
+    except Exception as e:   
+        print("Sorry i didn't get it , say that again please ") 
+        speak("Sorry i didn't get it , say that again please")
         return "None"
     return query
 
@@ -84,7 +70,7 @@ if __name__ == "__main__":
         query = takeCommand().lower()
         
 
-        # Logic for executing tasks based on query
+        # Created logics based on words inside a query and putting it into a loop 
         if 'wikipedia' in query:
             speak('Searching Wikipedia...')
             query = query.replace("wikipedia", "")
@@ -134,7 +120,7 @@ if __name__ == "__main__":
 
         elif 'play music' in query:
             speak("Playing some music now ")
-            playsound('D:\Programs\jarvis\starboy.mp3')
+            playsound('starboy.mp3')
 
         elif 'the time' in query:
             strTime = datetime.datetime.now().strftime("%H:%M:%S")    
@@ -149,7 +135,6 @@ if __name__ == "__main__":
             with open("data.txt") as word_file:
                 words = word_file.read()
                 speak(words)
-
 
 
         elif 'stop' in query:
